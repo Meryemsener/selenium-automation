@@ -1,26 +1,29 @@
+import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 
-import org.junit.Assert;
-import org.testng.annotations.Test;
-
-public class Test_Setting_Name_LastName_Email extends BaseTest{
+public class Test_Setting_Name_LastName_Email extends BaseTest {
 
 
-@Test
-    public void setName() {
-    practiceFormPage.setName("Eloa");
-    Assert.assertEquals("Name value is not correct","Eloa", practiceFormPage.getName());
-}
-@Test
-    public void setLastName() {
-    practiceFormPage.setLastName("swan");
-
-
-}
     @Test
-    public void setEmail() {
-        practiceFormPage.setEmail("eloaswan@gmail.com");
+    public void setName() {
+        PracticeFormPage practiceFormPage = new PracticeFormPage(driver);
+        practiceFormPage.setName("Mustafa");
+        Assertions.assertEquals("Mustafa",practiceFormPage.getName() , "Name value is not correct!");
+    }
 
+    @Test
+    public void setLastName(){
+        PracticeFormPage practiceFormPage = new PracticeFormPage(driver);
+        practiceFormPage.setLastName("Aksu");
+        Assertions.assertEquals("Aksu",practiceFormPage.getLastname(), "Last name value is not correct!");
+    }
+
+    @Test
+    public void setEmail(){
+        PracticeFormPage practiceFormPage = new PracticeFormPage(driver);
+        practiceFormPage.setEmail("mustafa123@gmail.com");
+        Assertions.assertEquals("mustafa123@gmail.com",practiceFormPage.getEmail(), "Last name value is not correct!");
     }
 
 

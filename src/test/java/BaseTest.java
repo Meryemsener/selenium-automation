@@ -1,31 +1,48 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.time.Duration;
 
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class BaseTest {
 
-    protected WebDriver driver;
-    PracticeFormPage practiceFormPage;
+    WebDriver driver ;
+    static String browser = System.getProperty("browser");
 
-    @BeforeClass
-    public void setUp(){
-        System.out.println("setup method initialised");
-        WebDriverManager.chromedriver().setup();
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-        driver.navigate().to("https://demoqa.com/automation-practice-form");
-        practiceFormPage=new PracticeFormPage(driver);
+    @BeforeAll
+    public static void setUp(){
+        if (browser.equals("firefox")){
+            WebDriverManager.firefoxdriver().setup();
+        }else if(browser.equals("chrome")){
+            WebDriverManager.chromedriver().setup();
+        }
+        System.out.println("Test initiated.");
     }
 
-@AfterClass
-public void tearDown(){
-   // System.out.println("tearDown method -finished");
-         //driver.quit();
-        //bu kismi acinca test gecmiyor, kapatinca test geciyor
-}
+    @BeforeEach
+    public void beforeMethod(){
+        driver = getDriver(browser);
+    }
+
+    @AfterEach
+    public void afterMethod(){
+        driver.quit();
+    }
+
+    @AfterAll
+    public static void tearDown(){
+        System.out.println("Test finished.");
+    }
+
+    private WebDriver getDriver(String browser){
+        WebDriver driver = null ;
+        if (browser.equals("firefox")){
+            driver = new FirefoxDriver();
+        }else if(browser.equals("chrome")){
+            driver = new ChromeDriver();
+        }
+        return driver ;
+    }
 }
